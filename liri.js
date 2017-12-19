@@ -14,14 +14,14 @@ var keys = require('./keys.js');
 		//ajax call to display tweets
 		var twitterAPI = require('node-twitter-api');
 		var twitter = new twitterAPI({
-	    consumerKey: keys.consumer_key,
-	    consumerSecret: keys.consumer_secret,
+	    consumerKey: keys.twitterKeys.consumer_key,
+	    consumerSecret: keys.twitterKeys.consumer_secret,
 	    callback: 'http://www.google.com'
 		});
 
 		twitter.search({'q': 'jihanna02', 'count':"20"},
-		    keys.access_token_key,
-		    keys.access_token_secret,
+		    keys.twitterKeys.access_token_key,
+		    keys.twitterKeys.access_token_secret,
 		    function(error, data, response) {
 		        if (error) {
 		            console.log("error alert");
@@ -36,22 +36,51 @@ var keys = require('./keys.js');
 
  	} else if (argOne === "spotify-this-song") {
 
- 		console.log("selected spotify-this-song (with value)");
+ 		var Spotify = require('node-spotify-api');
+ 
+		var spotify = new Spotify({
+		  id: keys.spotifyKeys.client_Id,
+		  secret: keys.spotifyKeys.client_secret
+		});
 
-		// if (argTwo != undefined ) {
-		// 	// ajax call to spotify with argTwo song title
+ 		if (argTwo != undefined ) {
+			// ajax call to spotify with argTwo song title
 
-		// 	// Artist(s)
-		//  	//The song's name
-		//  	//A preview link of the song from Spotify
-		//  	//The album that the song is from
 
-		//  	console.log("selected spotify-this-song (with value)");
+			spotify.search({ type: 'track', 
+				query: argTwo,
+				limit: 1 }, function(err, data) {
+			  if (err) {
+			    return console.log('Error occurred: ' + err);
+			  }
+			 
+				console.log("Artist: " + data.tracks.items[0].artists[0].name);
+				console.log("Song Title: " + data.tracks.items[0].name);
+				console.log("Album: " + data.tracks.items[0].album.name);
+				console.log("Song Preview: " + data.tracks.items[0].preview_url); 
+			});
 
-		// } else {
-		// 	// ajax call to spotify with "The Sign" by Ace of Base
-		// 	console.log("selected spotify-this-song (undefined)");
-		// }
+		} else {
+
+			spotify.search({ type: 'track', 
+				query: 'the sign',
+				limit: 1 }, function(err, data) {
+			  if (err) {
+			    return console.log('Error occurred: ' + err);
+			  }
+			 
+				console.log("Artist: " + data.tracks.items[0].artists[0].name);
+				console.log("Song Title: " + data.tracks.items[0].name);
+				console.log("Album: " + data.tracks.items[0].album.name);
+				console.log("Song Preview: " + data.tracks.items[0].preview_url); 
+			});
+
+		}
+
+
+
+
+
 		
 	} else if (argOne === "movie-this") {
 
