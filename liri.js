@@ -10,6 +10,14 @@ var keys = require('./keys.js');
 		//'<song name here>'
 		//'<movie name here>'
 
+	// var fs = require('fs');
+	// //append file for log
+	// var inputLine = argOne + "," + argTwo + "/n";
+	// fs.appendFile('log.txt', inputLine, function (err) {
+	//   if (err) throw err;
+	//   console.log('Saved!');
+	// });
+
 	if (argOne === "my-tweets") {
 		//ajax call to display tweets
 		var twitterAPI = require('node-twitter-api');
@@ -43,7 +51,7 @@ var keys = require('./keys.js');
 		  secret: keys.spotifyKeys.client_secret
 		});
 
- 		if (argTwo != undefined ) {
+ 		if (argTwo !== undefined ) {
 			// ajax call to spotify with argTwo song title
 
 
@@ -51,7 +59,7 @@ var keys = require('./keys.js');
 				query: argTwo,
 				limit: 1 }, function(err, data) {
 			  if (err) {
-			    return console.log('Error occurred: ' + err);
+			    return console.log("error alert");
 			  }
 			 
 				console.log("Artist: " + data.tracks.items[0].artists[0].name);
@@ -66,7 +74,7 @@ var keys = require('./keys.js');
 				query: 'the sign',
 				limit: 1 }, function(err, data) {
 			  if (err) {
-			    return console.log('Error occurred: ' + err);
+			    return console.log("error alert");
 			  }
 			 
 				console.log("Artist: " + data.tracks.items[0].artists[0].name);
@@ -78,33 +86,32 @@ var keys = require('./keys.js');
 		}
 
 
-
-
-
 		
 	} else if (argOne === "movie-this") {
 
-		console.log("selected movie-this (undefined)");
+		var request = require('request');
 
-		// if (argTwo != undefined ) {
-		// 	// ajax call to OMDB with argTwo movie title
+		var requestTitle = "";
 
-		// 	// Title of the movie.
-		// 	//Year the movie came out.
-		// 	//IMDB Rating of the movie.
-		// 	//Rotten Tomatoes Rating of the movie.
-		// 	//Country where the movie was produced.
-		// 	//Language of the movie.
-		// 	//Plot of the movie.
-		// 	//Actors in the movie.
+		if (argTwo !== undefined) {
+			requestTitle = 'http://www.omdbapi.com/?apikey=trilogy&'+'t='+argTwo;
 
-		// 	console.log("selected movie-this (with value)");
+		} else {
+			requestTitle = "http://www.omdbapi.com/?apikey=trilogy&t=Mr.+Nobody";
+		}		
 
-		// } else {
-		// 	//output data for the movie 'Mr. Nobody.'
+		request(requestTitle, function (error, response, body) {
+			var movieData = JSON.parse(body);
 
-		// 	console.log("selected movie-this (undefined)");
-		// }
+	  		console.log("Movie Title: " + movieData.Title); 
+			console.log("Year: " + movieData.Year);
+			console.log("IMDB Rating: " + movieData.imdbRating);
+			console.log("Rotten Tomatoes Score: " + movieData.Ratings[1].Value);
+			console.log("Country: " + movieData.Country);
+			console.log("Language(s): " + movieData.Language);
+			console.log("Plot: " + movieData.Plot);
+			console.log("Cast: " + movieData.Actors);
+		});
 		
 
 	}
