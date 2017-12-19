@@ -1,16 +1,18 @@
 var keys = require('./keys.js');
 
-    var argOne = process.argv[2];
-	//options:
-		//my-tweets
-		//spotify-this-song 
-		//movie-this
-	var argTwo = process.argv[3];
-	//options:
-		//'<song name here>'
-		//'<movie name here>'
+var argOne = process.argv[2];
+//options:
+	//my-tweets
+	//spotify-this-song 
+	//movie-this
+var argTwo = process.argv[3];
+//options:
+	//'<song name here>'
+	//'<movie name here>'
 
-	if (argOne === "my-tweets") {
+function runFunctions(a, b) {
+
+	if (a === "my-tweets") {
 		//ajax call to display tweets
 		var twitterAPI = require('node-twitter-api');
 		var twitter = new twitterAPI({
@@ -34,7 +36,7 @@ var keys = require('./keys.js');
 		    }
 		);
 
- 	} else if (argOne === "spotify-this-song") {
+ 	} else if (a === "spotify-this-song") {
 
  		var Spotify = require('node-spotify-api');
  
@@ -43,12 +45,12 @@ var keys = require('./keys.js');
 		  secret: keys.spotifyKeys.client_secret
 		});
 
- 		if (argTwo !== undefined ) {
+ 		if (b !== undefined ) {
 			// ajax call to spotify with argTwo song title
 
 
 			spotify.search({ type: 'track', 
-				query: argTwo,
+				query: b,
 				limit: 1 }, function(err, data) {
 			  if (err) {
 			    return console.log("error alert");
@@ -79,14 +81,14 @@ var keys = require('./keys.js');
 
 
 		
-	} else if (argOne === "movie-this") {
+	} else if (a === "movie-this") {
 
 		var request = require('request');
 
 		var requestTitle = "";
 
-		if (argTwo !== undefined) {
-			requestTitle = 'http://www.omdbapi.com/?apikey=trilogy&'+'t='+argTwo;
+		if (b !== undefined) {
+			requestTitle = 'http://www.omdbapi.com/?apikey=trilogy&'+'t='+b;
 
 		} else {
 			requestTitle = "http://www.omdbapi.com/?apikey=trilogy&t=Mr.+Nobody";
@@ -105,7 +107,12 @@ var keys = require('./keys.js');
 			console.log("Cast: " + movieData.Actors);
 		});
 		
-	} else if (argOne === "do-what-it-says") {
+	} 
+}
+
+runFunctions(argOne, argTwo);
+
+if (argOne === "do-what-it-says") {
 
 		var fs = require('fs');
 
@@ -114,11 +121,15 @@ var keys = require('./keys.js');
 				console.log("error alert");
 
 			} else {
-				argOne = data;
+				randomData = data.split(',');
+				argOne = randomData[0];
+				argTwo = randomData[1];
+
+				runFunctions(argOne, argTwo);
+	
 			}
 		});
 
 	}
-
 
 // };
