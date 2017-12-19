@@ -10,14 +10,6 @@ var keys = require('./keys.js');
 		//'<song name here>'
 		//'<movie name here>'
 
-	// var fs = require('fs');
-	// //append file for log
-	// var inputLine = argOne + "," + argTwo + "/n";
-	// fs.appendFile('log.txt', inputLine, function (err) {
-	//   if (err) throw err;
-	//   console.log('Saved!');
-	// });
-
 	if (argOne === "my-tweets") {
 		//ajax call to display tweets
 		var twitterAPI = require('node-twitter-api');
@@ -113,6 +105,18 @@ var keys = require('./keys.js');
 			console.log("Cast: " + movieData.Actors);
 		});
 		
+	} else if (argOne === "do-what-it-says") {
+
+		var fs = require('fs');
+
+		fs.readFile('random.txt', 'utf8', function(error,data){
+			if(error){
+				console.log("error alert");
+
+			} else {
+				argOne = data;
+			}
+		});
 
 	}
 
