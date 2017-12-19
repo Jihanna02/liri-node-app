@@ -63,8 +63,8 @@ var keys = require('./keys.js');
 		} else {
 
 			spotify.search({ type: 'track', 
-				query: 'the sign',
-				limit: 1 }, function(err, data) {
+				query: "The Sign Ace of Base",
+				limit: 2 }, function(err, data) {
 			  if (err) {
 			    return console.log("error alert");
 			  }
