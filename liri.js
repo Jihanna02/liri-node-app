@@ -78,8 +78,6 @@ function runFunctions(a, b) {
 			});
 
 		}
-
-
 		
 	} else if (a === "movie-this") {
 
@@ -131,5 +129,3 @@ if (argOne === "do-what-it-says") {
 		});
 
 	}
-
-// };
