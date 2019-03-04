@@ -16,4 +16,4 @@ For screenshots of the process, please visit:
 * Node.Js
 * Twitter API
 * Spotify API
-* IMDB API
+* OMDB API
